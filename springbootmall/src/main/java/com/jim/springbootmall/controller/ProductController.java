@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Validated
 @RestController
 public class ProductController {
     @Autowired
@@ -25,13 +25,19 @@ public class ProductController {
             @RequestParam(required = false) String search,
             // 排序 Sorting
             @RequestParam(defaultValue = "created_date") String orderBy,
-            @RequestParam(defaultValue = "desc") String sort
+            @RequestParam(defaultValue = "desc") String sort,
+
+            //分頁 pagination
+            @RequestParam(defaultValue = "5")  Integer limit,
+            @RequestParam(defaultValue = "0") Integer offset
             ) {
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearch(search);
         productQueryParams.setOrderby(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
         List<Product> productList = productService.getProducts(productQueryParams);
 
 
