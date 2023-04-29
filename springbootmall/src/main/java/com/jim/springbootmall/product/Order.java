@@ -1,20 +1,18 @@
 package com.jim.springbootmall.product;
 
+import java.util.Date;
+import java.util.List;
+
 public class Order {
 
-    private Integer orderItemId;
+    private Integer userId;
+    private Integer totalamount;
+    private Date createDate;
+    private Date lastModifiedDat;
+
     private Integer orderId;
-    private Integer productId;
-    private Integer quantity;
-    private Integer amount;
 
-    public Integer getOrderItemId() {
-        return orderItemId;
-    }
-
-    public void setOrderItemId(Integer orderItemId) {
-        this.orderItemId = orderItemId;
-    }
+    private List<OrderItem> orderItemList;
 
     public Integer getOrderId() {
         return orderId;
@@ -24,27 +22,46 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Integer getProductId() {
-        return productId;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getTotalamount() {
+        return totalamount;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setTotalamount(Integer totalamount) {
+        this.totalamount = totalamount;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
+
+    public Date getLastModifiedDat() {
+        return lastModifiedDat;
+    }
+
+    public void setLastModifiedDat(Date lastModifiedDat) {
+        this.lastModifiedDat = lastModifiedDat;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
+
+
 }
