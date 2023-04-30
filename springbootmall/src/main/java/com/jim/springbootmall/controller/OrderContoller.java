@@ -2,23 +2,53 @@ package com.jim.springbootmall.controller;
 
 import com.jim.springbootmall.dto.BuyItem;
 import com.jim.springbootmall.dto.CreateOrderRequest;
+import com.jim.springbootmall.dto.OrderQueryParams;
 import com.jim.springbootmall.product.Order;
 import com.jim.springbootmall.product.OrderItem;
 import com.jim.springbootmall.product.User;
 import com.jim.springbootmall.service.OrderService;
+import com.jim.springbootmall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 public class OrderContoller {
     @Autowired
     private OrderService orderService;
+
+    @GetMapping("users/{userId}/orders")
+    public ResponseEntity<Page<Order>> getOrders(
+            @PathVariable Integer userId,
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "0") Integer offset
+    ) {
+        OrderQueryParams orderQueryParams = new OrderQueryParams();
+        orderQueryParams.setUserId(userId);
+        orderQueryParams.setLimit(limit);
+        orderQueryParams.setOffset(offset);
+
+        // 取得 order list
+
+        List<Order> orderList = orderService.getOrders(orderQueryParams);
+
+        // 取得 order 總數
+        Integer count = orderService.countOrder(orderQueryParams);
+
+        // 分頁
+
+        Page<Order> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(count);
+        page.setResults(orderList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
+    }
     @PostMapping("/users/{userId}/orders")
     public ResponseEntity<?> createOrder(@PathVariable Integer userId,
                                          @RequestBody CreateOrderRequest createOrderRequest) {
